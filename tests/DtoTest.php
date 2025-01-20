@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use SmartCms\Reviews\Models\ProductReview;
-use SmartCms\Reviews\Repositories\ProductReviewRepository;
 use SmartCms\Store\Models\Product;
 use SmartCms\Store\Repositories\Product\ProductEntityDto;
 use SmartCms\Store\Repositories\Product\ProductRepository;

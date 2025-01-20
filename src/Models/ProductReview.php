@@ -25,14 +25,14 @@ use SmartCms\Store\Models\Product;
  */
 class ProductReview extends BaseModel
 {
-    use HasStatus;
     use HasFactory;
+    use HasStatus;
 
     protected $fillable = [
         'product_id',
         'rating',
         'is_approved',
-        'data'
+        'data',
     ];
 
     protected $casts = [

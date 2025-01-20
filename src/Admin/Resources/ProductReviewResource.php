@@ -10,7 +10,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea as ComponentsTextarea;
 use SmartCms\Core\Models\Field;
 use SmartCms\Core\Services\Schema;
 use SmartCms\Core\Services\TableSchema;
@@ -105,6 +104,7 @@ class ProductReviewResource extends Resource
         }
 
         $form->schema(array_merge($form->getSchema(), $formFields));
+
         return $form;
     }
 
