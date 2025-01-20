@@ -64,7 +64,6 @@ class ProductReviewResource extends Resource
         $fields = Field::query()->whereIn('id', _settings('order.fields', []))->get();
 
         $formFields = [];
-        $fieldData = [];
 
         foreach ($fields as $field) {
             $name = $field->name;
@@ -77,7 +76,7 @@ class ProductReviewResource extends Resource
             $required = $field->required;
             $validation = $field->validation;
 
-            $textInput = TextInput::make($name)
+            $textInput = TextInput::make('data'.$name)
                 ->label($label)
                 ->placeholder($placeholder)
                 ->required($required);
