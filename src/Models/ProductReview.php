@@ -25,22 +25,22 @@ use SmartCms\Store\Models\Product;
  */
 class ProductReview extends BaseModel
 {
-    use HasFactory;
     use HasStatus;
+    use HasFactory;
 
     protected $fillable = [
-        'name',
-        'email',
         'product_id',
         'rating',
-        'image',
-        'comment',
-        'status',
         'is_approved',
+        'data'
+    ];
+
+    protected $casts = [
+        'data' => 'array',
     ];
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

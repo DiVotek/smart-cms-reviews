@@ -12,12 +12,8 @@ class ProductReviewFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
             'product_id' => 1,
             'rating' => $this->faker->numberBetween(1, 5),
-            'image' => $this->faker->imageUrl(),
-            'comment' => $this->faker->text,
-            'status' => $this->faker->boolean(),
             'is_approved' => $this->faker->boolean(),
         ];
     }

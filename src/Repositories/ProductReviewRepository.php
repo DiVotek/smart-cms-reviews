@@ -12,12 +12,12 @@ class ProductReviewRepository
         return new self;
     }
 
-    public function findByProductId(int $productId): array
+    public function findByProductId($productId): array
     {
         return ProductReview::query()
             ->where('is_approved', true)
             ->where('product_id', $productId)->get()->map(function (ProductReview $review) {
-                return ProductReviewDto::factory($review->name, $review->email, $review->comment, $review->rating, $review->image, $review->created_at)->get();
+                return ProductReviewDto::factory($review->product_id, $review->rating, $review->is_approved, $review->data ?? [], $review->created_at)->get();
             })->toArray();
     }
 
@@ -26,11 +26,11 @@ class ProductReviewRepository
         return ProductReview::query()
             ->where('is_approved', true)
             ->get()->map(function (ProductReview $review) {
-                return ProductReviewDto::factory($review->name, $review->email, $review->comment, $review->rating, $review->image, $review->created_at)->get();
+                return ProductReviewDto::factory($review->product_id, $review->rating, $review->is_approved, $review->data ?? [], $review->created_at)->get();
             })->toArray();
     }
 
-    public function getRating(int $productId): float
+    public function getRating($productId): float
     {
         return ProductReview::query()->where('is_approved', true)
             ->where('product_id', $productId)->avg('rating') ?? 0;
