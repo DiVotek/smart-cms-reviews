@@ -30,7 +30,7 @@ it('injects rating to product entity dto', function () {
 
 it('injects reviews to product entity dto', function () {
     $entity = \SmartCms\Store\Database\Factories\ProductFactory::new()->state(['status' => 1])->create();
-    ProductReview::factory()->count(3)->state(['status' => 1, 'is_approved' => true])->create(['product_id' => $entity->id]);
+    ProductReview::factory()->count(3)->create(['product_id' => $entity->id, 'is_approved' => true]);
     $dto = new ProductEntityDto($entity->id, $entity->name(), '', $entity->getBreadcrumbs(), $entity->images ?? [], $seo->summary ?? null, $seo->content ?? null, $entity->price, $entity->sale_price, false, '', [], [], $entity->sku);
     $dto = $dto->get();
     expect($dto)->toHaveProperty('reviews');
@@ -40,7 +40,7 @@ it('injects reviews to product entity dto', function () {
 
 it('properly calculate rating', function () {
     $entity = \SmartCms\Store\Database\Factories\ProductFactory::new()->state(['status' => 1])->create();
-    ProductReview::factory()->count(3)->state(['status' => 1, 'is_approved' => true])->create(['product_id' => $entity->id, 'rating' => 5]);
+    ProductReview::factory()->count(3)->state(['is_approved' => true])->create(['product_id' => $entity->id, 'rating' => 5]);
     $dto = new ProductEntityDto($entity->id, $entity->name(), '', $entity->getBreadcrumbs(), $entity->images ?? [], $seo->summary ?? null, $seo->content ?? null, $entity->price, $entity->sale_price, false, '', [], [], $entity->sku);
     $dto = $dto->get();
     expect($dto)->toHaveProperty('rating');
@@ -49,7 +49,7 @@ it('properly calculate rating', function () {
 
 it('doesnt calculate rating for not aprroved reviews', function () {
     $entity = \SmartCms\Store\Database\Factories\ProductFactory::new()->state(['status' => 1])->create();
-    ProductReview::factory()->count(3)->state(['status' => 1, 'is_approved' => false])->create(['product_id' => $entity->id, 'rating' => 5]);
+    ProductReview::factory()->count(3)->state(['is_approved' => false])->create(['product_id' => $entity->id, 'rating' => 5]);
     $dto = new ProductEntityDto($entity->id, $entity->name(), '', $entity->getBreadcrumbs(), $entity->images ?? [], $seo->summary ?? null, $seo->content ?? null, $entity->price, $entity->sale_price, false, '', [], [], $entity->sku);
     $dto = $dto->get();
     expect($dto)->toHaveProperty('rating');
@@ -58,7 +58,7 @@ it('doesnt calculate rating for not aprroved reviews', function () {
 
 it('doesnt append not approved reviews to product entity dto', function () {
     $entity = \SmartCms\Store\Database\Factories\ProductFactory::new()->state(['status' => 1])->create();
-    ProductReview::factory()->count(3)->state(['status' => 1, 'is_approved' => false])->create(['product_id' => $entity->id]);
+    ProductReview::factory()->count(3)->state(['is_approved' => false])->create(['product_id' => $entity->id]);
     $dto = new ProductEntityDto($entity->id, $entity->name(), '', $entity->getBreadcrumbs(), $entity->images ?? [], $seo->summary ?? null, $seo->content ?? null, $entity->price, $entity->sale_price, false, '', [], [], $entity->sku);
     $dto = $dto->get();
     expect($dto)->toHaveProperty('reviews');

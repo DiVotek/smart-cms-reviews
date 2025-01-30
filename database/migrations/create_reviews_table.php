@@ -12,17 +12,11 @@ return new class extends Migration
     {
         Schema::create(ProductReview::getDb(), function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->nullable();
-            /**
-             * @phpstan-ignore-next-line
-             */
             $table->foreignIdFor(Product::class)->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('rating');
-            $table->mediumText('comment')->nullable();
-            $table->string('image')->nullable();
             $table->integer('status')->default(1);
             $table->boolean('is_approved')->default(true);
+            $table->json('data')->nullable();
             $table->timestamps();
         });
     }

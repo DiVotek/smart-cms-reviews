@@ -72,5 +72,11 @@
         }
     },
     "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/DiVotek/smart_cms_store.git"
+        }
+    ],
     "prefer-stable": true
 }
