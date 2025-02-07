@@ -46,9 +46,35 @@ class ProductReviewResource extends Resource
         return _nav('reviews');
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
-        $form
+        $fields = Field::query()->whereIn('id', _settings('order.fields', []))->get();
+
+        $formFields = [];
+
+        foreach ($fields as $field) {
+            $name = $field->name;
+            $mask = null;
+            if ($field->mask && isset($field->mask[main_lang()])) {
+                $mask = $field->mask[main_lang()];
+            }
+
+            $textInput = TextInput::make('data.' . $name)
+                ->label($field->name)
+                ->required($field->required);
+
+            if ($mask) {
+                $textInput->mask($mask);
+            }
+
+            $formFields[] = $textInput;
+        }
+        return $form
             ->schema([
                 Schema::getSelect('product_id', Product::query()->pluck('name', 'id')->toArray())->label(_columns('product'))->required()->hiddenOn('edit')->disabledOn('edit'),
                 Schema::getSelect('rating', [
@@ -58,54 +84,8 @@ class ProductReviewResource extends Resource
                     4 => 4,
                     5 => 5,
                 ])->label(_columns('rating'))->required()->default(5),
+                ...$formFields,
             ])->columns(1);
-
-        $fields = Field::query()->whereIn('id', _settings('order.fields', []))->get();
-
-        $formFields = [];
-
-        foreach ($fields as $field) {
-            $name = $field->name;
-            $mask = $field->mask;
-            $class = $field->class;
-            $style = $field->style;
-            $label = $field->label;
-            $description = $field->description;
-            $placeholder = $field->placeholder;
-            $required = $field->required;
-            $validation = $field->validation;
-
-            $textInput = TextInput::make('data'.$name)
-                ->label($label)
-                ->placeholder($placeholder)
-                ->required($required);
-
-            if ($mask) {
-                $textInput->mask($mask);
-            }
-
-            if ($class) {
-                $textInput->extraAttributes(['class' => $class]);
-            }
-
-            if ($style) {
-                $textInput->extraAttributes(['style' => $style]);
-            }
-
-            if ($validation) {
-                $textInput->rules($validation);
-            }
-
-            if ($description) {
-                $textInput->hint($description);
-            }
-
-            $formFields[] = $textInput;
-        }
-
-        $form->schema(array_merge($form->getSchema(), $formFields));
-
-        return $form;
     }
 
     public static function table(Table $table): Table
@@ -113,7 +93,7 @@ class ProductReviewResource extends Resource
         return $table
             ->defaultSort('updated_at', 'desc')
             ->columns([
-                TextColumn::make('name')->label(_columns('name')),
+                TextColumn::make('product.name')->label(_columns('product')),
                 TextColumn::make('rating')->numeric()->label(_columns('rating')),
                 ToggleColumn::make('is_approved')->label(_columns('is_approved'))->afterStateUpdated(function ($record, $state) {
                     if ($record->is_approved && ! $record->status) {

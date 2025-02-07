@@ -1,6 +1,6 @@
 <?php
 
-namespace SmartCms\FastOrders\Admin\Pages;
+namespace SmartCms\Reviews\Admin\Pages;
 
 use Closure;
 use Filament\Forms\Components\Repeater;
@@ -14,12 +14,17 @@ class ReviewSettings extends BaseSettings
 {
     public static function getNavigationGroup(): ?string
     {
-        return _nav('catalog');
+        return _nav('communication');
     }
 
     public static function getNavigationIcon(): string|Htmlable|null
     {
         return null;
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('reviews::trans.navigation_label');
     }
 
     public function getBreadcrumbs(): array
