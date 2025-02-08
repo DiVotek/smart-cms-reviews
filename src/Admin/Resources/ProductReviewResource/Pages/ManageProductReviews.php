@@ -16,14 +16,9 @@ class ManageProductReviews extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make(_actions('help'))
-                ->iconButton()
-                ->icon('heroicon-o-question-mark-circle')
-                ->modalDescription(_hints('help.product_review'))
-                ->modalFooterActions([]),
-            Actions\Action::make('settings')->label(_actions('settings'))
-                ->iconButton()
-                ->icon('heroicon-o-cog-6-tooth')
+            Actions\Action::make('help')
+                ->help('Reviews help'),
+            Actions\Action::make('settings')->settings()
                 ->form([
                     Repeater::make('fields')
                         ->label('Fields')
@@ -43,7 +38,7 @@ class ManageProductReviews extends ManageRecords
                         'reviews.fields' => $data['fields'],
                     ]);
                 }),
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->create(),
         ];
     }
 }
