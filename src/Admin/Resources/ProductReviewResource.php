@@ -64,7 +64,7 @@ class ProductReviewResource extends Resource
                 $mask = $field->mask[main_lang()];
             }
 
-            $textInput = TextInput::make('data.' . $name)
+            $textInput = TextInput::make('data.'.$name)
                 ->label($field->name)
                 ->required($field->required);
 
@@ -74,6 +74,7 @@ class ProductReviewResource extends Resource
 
             $formFields[] = $textInput;
         }
+
         return $form
             ->schema([
                 Schema::getSelect('product_id', Product::query()->pluck('name', 'id')->toArray())->label(_columns('product'))->required()->hiddenOn('edit')->disabledOn('edit'),
