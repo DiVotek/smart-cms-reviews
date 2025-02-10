@@ -48,6 +48,6 @@ class ReviewController
             'is_approved' => false,
         ]);
 
-        return new ScmsResponse();
+        return new ScmsResponse;
     }
 }
