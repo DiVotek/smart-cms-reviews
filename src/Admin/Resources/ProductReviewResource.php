@@ -2,22 +2,17 @@
 
 namespace SmartCms\Reviews\Admin\Resources;
 
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea as ComponentsTextarea;
-use SmartCms\Core\Models\Field;
 use SmartCms\Core\Services\Schema;
 use SmartCms\Core\Services\TableSchema;
-use SmartCms\Reviews\Admin\Resources\ProductReviewResource\Pages as Pages;
+use SmartCms\Reviews\Admin\Resources\ProductReviewResource\Pages;
 use SmartCms\Reviews\Models\ProductReview;
-use SmartCms\Store\Models\Product;
 
 class ProductReviewResource extends Resource
 {

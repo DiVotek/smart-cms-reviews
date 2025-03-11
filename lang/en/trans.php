@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'admin_comment' => 'Admin Comment'
+    'admin_comment' => 'Admin Comment',
 ];
