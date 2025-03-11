@@ -18,7 +18,6 @@ use SmartCms\Store\Models\Product;
  * @property string $image
  * @property string $comment
  * @property string $status
- * @property string $is_approved
  * @property Product $product
  * @property \Datetime $created_at
  * @property \Datetime $updated_at
@@ -31,12 +30,15 @@ class ProductReview extends BaseModel
     protected $fillable = [
         'product_id',
         'rating',
-        'is_approved',
-        'data',
+        'name',
+        'email',
+        'comment',
+        'admin_comment',
+        'images',
     ];
 
     protected $casts = [
-        'data' => 'array',
+        'images' => 'array',
     ];
 
     public function product(): BelongsTo

@@ -15,24 +15,22 @@ class ProductReviewRepository
     public function findByProductId($productId): array
     {
         return ProductReview::query()
-            ->where('is_approved', true)
             ->where('product_id', $productId)->get()->map(function (ProductReview $review) {
-                return ProductReviewDto::factory($review->product_id, $review->rating, $review->is_approved, $review->data ?? [], $review->created_at)->get();
+                return ProductReviewDto::factory($review->name, $review->email, $review->rating, $review->comment, $review->admin_comment, $review->images, $review->created_at, $review->updated_at)->get();
             })->toArray();
     }
 
     public function get(): array
     {
         return ProductReview::query()
-            ->where('is_approved', true)
             ->get()->map(function (ProductReview $review) {
-                return ProductReviewDto::factory($review->product_id, $review->rating, $review->is_approved, $review->data ?? [], $review->created_at)->get();
+                return ProductReviewDto::factory($review->name, $review->email, $review->rating, $review->comment, $review->admin_comment, $review->images, $review->created_at, $review->updated_at)->get();
             })->toArray();
     }
 
     public function getRating($productId): float
     {
-        return ProductReview::query()->where('is_approved', true)
+        return ProductReview::query()
             ->where('product_id', $productId)->avg('rating') ?? 0;
     }
 }

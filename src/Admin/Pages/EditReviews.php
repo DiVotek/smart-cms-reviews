@@ -52,8 +52,9 @@ class EditReviews extends ManageRelatedRecords
                     4 => 4,
                     5 => 5,
                 ])->label(_columns('rating'))->required()->default(5),
-                ComponentsTextarea::make('comment')->label(_columns('comment'))->required()->characterLimit(250),
-                Schema::getImage(path: 'reviews'),
+                ComponentsTextarea::make('comment')->label(_columns('comment'))->characterLimit(250),
+                ComponentsTextarea::make('admin_comment')->label(__('reviews::trans.admin_comment'))->characterLimit(250),
+                Schema::getImage(path: 'reviews', isMultiple: true),
             ])->columns(1);
     }
 
@@ -97,7 +98,7 @@ class EditReviews extends ManageRelatedRecords
         return [
             \Filament\Actions\DeleteAction::make()->icon('heroicon-o-x-circle'),
             \Filament\Actions\ViewAction::make()
-                ->url(fn ($record) => $record->route())
+                ->url(fn($record) => $record->route())
                 ->icon('heroicon-o-arrow-right-end-on-rectangle')
                 ->openUrlInNewTab(true),
             \Filament\Actions\Action::make(_actions('save_close'))

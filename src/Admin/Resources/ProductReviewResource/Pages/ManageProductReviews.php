@@ -18,26 +18,26 @@ class ManageProductReviews extends ManageRecords
         return [
             Actions\Action::make('help')
                 ->help('Reviews help'),
-            Actions\Action::make('settings')->settings()
-                ->form([
-                    Repeater::make('fields')
-                        ->label('Fields')
-                        ->schema([
-                            Select::make('field_id')
-                                ->label('Field')
-                                ->options(Field::query()->pluck('name', 'id')->toArray())
-                                ->required(),
-                        ])
-                        ->required(),
-                ])->fillForm(function () {
-                    return [
-                        'fields' => setting('reviews.fields', []),
-                    ];
-                })->action(function ($data) {
-                    setting([
-                        'reviews.fields' => $data['fields'],
-                    ]);
-                }),
+            // Actions\Action::make('settings')->settings()
+            //     ->form([
+            //         Repeater::make('fields')
+            //             ->label('Fields')
+            //             ->schema([
+            //                 Select::make('field_id')
+            //                     ->label('Field')
+            //                     ->options(Field::query()->pluck('name', 'id')->toArray())
+            //                     ->required(),
+            //             ])
+            //             ->required(),
+            //     ])->fillForm(function () {
+            //         return [
+            //             'fields' => setting('reviews.fields', []),
+            //         ];
+            //     })->action(function ($data) {
+            //         setting([
+            //             'reviews.fields' => $data['fields'],
+            //         ]);
+            //     }),
             Actions\CreateAction::make()->create(),
         ];
     }

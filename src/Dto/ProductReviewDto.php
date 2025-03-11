@@ -11,22 +11,27 @@ class ProductReviewDto implements DtoInterface
     use AsDto;
 
     public function __construct(
-        public string $product_id,
+        public string $name,
+        public ?string $email,
         public int $rating,
-        public bool $is_approved,
-        public array $data,
-        public DateTime $createdAt
+        public ?string $comment,
+        public ?string $admin_comment,
+        public array $images,
+        public DateTime $createdAt,
+        public DateTime $updatedAt,
     ) {}
 
     public function toArray(): array
     {
         return [
-            'name' => $this->data->name ?? 'Anonymus user',
-            'product_id' => $this->product_id,
+            'name' => $this->name,
+            'email' => $this->email,
             'rating' => $this->rating,
-            'is_approved' => $this->is_approved,
-            'data' => $this->data ?? [],
+            'comment' => $this->comment,
+            'admin_comment' => $this->admin_comment,
+            'images' => $this->images,
             'created_at' => $this->transformDate($this->createdAt),
+            'updated_at' => $this->transformDate($this->updatedAt),
         ];
     }
 }

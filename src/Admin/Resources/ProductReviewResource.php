@@ -2,6 +2,7 @@
 
 namespace SmartCms\Reviews\Admin\Resources;
 
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -10,6 +11,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea as ComponentsTextarea;
 use SmartCms\Core\Models\Field;
 use SmartCms\Core\Services\Schema;
 use SmartCms\Core\Services\TableSchema;
@@ -53,31 +55,10 @@ class ProductReviewResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $fields = Field::query()->whereIn('id', _settings('order.fields', []))->get();
-
-        $formFields = [];
-
-        foreach ($fields as $field) {
-            $name = $field->name;
-            $mask = null;
-            if ($field->mask && isset($field->mask[main_lang()])) {
-                $mask = $field->mask[main_lang()];
-            }
-
-            $textInput = TextInput::make('data.'.$name)
-                ->label($field->name)
-                ->required($field->required);
-
-            if ($mask) {
-                $textInput->mask($mask);
-            }
-
-            $formFields[] = $textInput;
-        }
-
         return $form
             ->schema([
-                Schema::getSelect('product_id', Product::query()->pluck('name', 'id')->toArray())->label(_columns('product'))->required()->hiddenOn('edit')->disabledOn('edit'),
+                Schema::getName()->required(),
+                Schema::getStatus(),
                 Schema::getSelect('rating', [
                     1 => 1,
                     2 => 2,
@@ -85,7 +66,9 @@ class ProductReviewResource extends Resource
                     4 => 4,
                     5 => 5,
                 ])->label(_columns('rating'))->required()->default(5),
-                ...$formFields,
+                ComponentsTextarea::make('comment')->label(_columns('comment'))->characterLimit(250),
+                ComponentsTextarea::make('admin_comment')->label(__('reviews::trans.admin_comment'))->characterLimit(250),
+                Schema::getImage(path: 'reviews', isMultiple: true),
             ])->columns(1);
     }
 
@@ -95,12 +78,11 @@ class ProductReviewResource extends Resource
             ->defaultSort('updated_at', 'desc')
             ->columns([
                 TextColumn::make('product.name')->label(_columns('product')),
+                TableSchema::getStatus(),
+                TextColumn::make('name')->label(_columns('name')),
                 TextColumn::make('rating')->numeric()->label(_columns('rating')),
-                ToggleColumn::make('is_approved')->label(_columns('is_approved'))->afterStateUpdated(function ($record, $state) {
-                    if ($record->is_approved && ! $record->status) {
-                        $record->update(['status' => 1]);
-                    }
-                }),
+                TextColumn::make('email')->label(_columns('email')),
+                TextColumn::make('comment')->label(_columns('comment')),
                 TableSchema::getUpdatedAt(),
             ])
             ->filters([
