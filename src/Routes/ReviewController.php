@@ -5,6 +5,7 @@ namespace SmartCms\Reviews\Routes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use SmartCms\Core\Services\ScmsResponse;
+use SmartCms\Core\Services\UserNotification;
 use SmartCms\Reviews\Models\ProductReview;
 
 class ReviewController
@@ -29,6 +30,19 @@ class ReviewController
             'comment' => $request->input('comment', null),
             'images' => $request->input('images', []),
         ]);
+
+        $userNotification = setting('reviews.user_notification', []);
+        if (is_multi_lang()) {
+            $notification = $userNotification[current_lang()] ?? $userNotification['default'] ?? '';
+        } else {
+            $notification = $userNotification['default'] ?? '';
+        }
+        if ($notification) {
+            UserNotification::make()
+                ->title($notification)
+                ->success()
+                ->send();
+        }
 
         return new ScmsResponse;
     }
