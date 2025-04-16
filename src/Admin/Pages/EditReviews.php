@@ -14,12 +14,20 @@ use SmartCms\Core\Services\Schema;
 use SmartCms\Core\Services\TableSchema;
 use SmartCms\Store\Admin\Resources\ProductResource;
 use SmartCms\Store\Admin\Resources\ProductResource\Pages\ListProducts;
+use SmartCms\Store\Models\Product;
 
 class EditReviews extends ManageRelatedRecords
 {
     protected static string $resource = ProductResource::class;
 
     protected static string $relationship = 'reviews';
+
+    public static function getNavigationBadge(): ?string
+    {
+        $pageId = request()->route('record', 0);
+
+        return Product::query()->find($pageId)?->reviews()?->count() ?? 0;
+    }
 
     public static function getNavigationLabel(): string
     {
