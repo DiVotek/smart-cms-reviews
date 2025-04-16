@@ -23,8 +23,9 @@ class EditReviews extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return _nav('reviews');
+        return __('reviews::trans.nav');
     }
+
 
     public static function getNavigationIcon(): string|Htmlable|null
     {
@@ -80,7 +81,7 @@ class EditReviews extends ManageRelatedRecords
                     ]),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -98,7 +99,7 @@ class EditReviews extends ManageRelatedRecords
         return [
             \Filament\Actions\DeleteAction::make()->icon('heroicon-o-x-circle'),
             \Filament\Actions\ViewAction::make()
-                ->url(fn ($record) => $record->route())
+                ->url(fn($record) => $record->route())
                 ->icon('heroicon-o-arrow-right-end-on-rectangle')
                 ->openUrlInNewTab(true),
             \Filament\Actions\Action::make(_actions('save_close'))

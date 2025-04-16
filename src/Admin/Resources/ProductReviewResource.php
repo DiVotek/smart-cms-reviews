@@ -18,6 +18,8 @@ class ProductReviewResource extends Resource
 {
     protected static ?string $model = ProductReview::class;
 
+    protected static ?int $navigationSort = 11;
+
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
         return parent::getEloquentQuery()->withoutGlobalScopes();
@@ -30,17 +32,17 @@ class ProductReviewResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return _nav('communication');
+        return _nav('catalog');
     }
 
     public static function getModelLabel(): string
     {
-        return _nav('review');
+        return __('reviews::trans.nav');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return _nav('reviews');
+        return __('reviews::trans.nav_plural');
     }
 
     public static function canCreate(): bool

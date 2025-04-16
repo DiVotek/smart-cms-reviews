@@ -3,12 +3,11 @@
 namespace SmartCms\Reviews\Events\Dto;
 
 use SmartCms\Reviews\Repositories\ProductReviewRepository;
-use SmartCms\Store\Repositories\Product\ProductDto;
 
 class ProductTransform
 {
-    public function __invoke(ProductDto $dto): void
+    public function __invoke(&$dto)
     {
-        $dto->setExtraValue('rating', ProductReviewRepository::make()->getRating($dto->id));
+        $dto['rating'] = ProductReviewRepository::make()->getRating($dto['id']);
     }
 }

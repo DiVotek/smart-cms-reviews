@@ -2,8 +2,8 @@
 
 namespace SmartCms\Reviews\Repositories;
 
-use SmartCms\Reviews\Dto\ProductReviewDto;
 use SmartCms\Reviews\Models\ProductReview;
+use SmartCms\Reviews\Resources\ProductReviewResource;
 
 class ProductReviewRepository
 {
@@ -16,7 +16,7 @@ class ProductReviewRepository
     {
         return ProductReview::query()
             ->where('product_id', $productId)->get()->map(function (ProductReview $review) {
-                return ProductReviewDto::factory($review->name, $review->email, $review->rating, $review->comment, $review->admin_comment, $review->images, $review->created_at, $review->updated_at)->get();
+                return ProductReviewResource::make($review)->get();
             })->toArray();
     }
 
@@ -24,7 +24,7 @@ class ProductReviewRepository
     {
         return ProductReview::query()
             ->get()->map(function (ProductReview $review) {
-                return ProductReviewDto::factory($review->name, $review->email, $review->rating, $review->comment, $review->admin_comment, $review->images, $review->created_at, $review->updated_at)->get();
+                return ProductReviewResource::make($review)->get();
             })->toArray();
     }
 
