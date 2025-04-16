@@ -13,6 +13,7 @@ class ProductReviewResource extends BaseResource
         foreach ($originalImages as $image) {
             $images[] = $this->validateImage($image);
         }
+
         return [
             'name' => $this->resource->name,
             'email' => $this->resource->email ?? '',
