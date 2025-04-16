@@ -3,8 +3,6 @@
 use Illuminate\Support\Facades\Log;
 use SmartCms\Reviews\Models\ProductReview;
 use SmartCms\Store\Models\Product;
-use SmartCms\Store\Repositories\Product\ProductEntityDto;
-use SmartCms\Store\Repositories\Product\ProductRepository;
 use SmartCms\Store\Resources\Product\ProductEntityResource;
 use SmartCms\Store\Resources\Product\ProductResource;
 
