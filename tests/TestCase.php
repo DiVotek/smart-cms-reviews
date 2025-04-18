@@ -11,18 +11,18 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadMigrationsFrom(__DIR__ . '/../vendor/smart-cms/store/database/migrations');
-        $this->loadMigrationsFrom(__DIR__ . '/../vendor/smart-cms/core/database/new_migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../vendor/smart-cms/store/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../vendor/smart-cms/core/database/new_migrations');
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
             $classBaseName = class_basename($modelName);
 
-            if (class_exists($factory = 'SmartCms\\Reviews\\Database\\Factories\\' . $classBaseName . 'Factory')) {
+            if (class_exists($factory = 'SmartCms\\Reviews\\Database\\Factories\\'.$classBaseName.'Factory')) {
                 return $factory;
             }
 
-            if (class_exists($factory = 'SmartCms\\Store\\Database\\Factories\\' . $classBaseName . 'Factory')) {
+            if (class_exists($factory = 'SmartCms\\Store\\Database\\Factories\\'.$classBaseName.'Factory')) {
                 return $factory;
             }
 

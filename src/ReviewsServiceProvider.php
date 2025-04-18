@@ -21,9 +21,9 @@ class ReviewsServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'reviews');
-        $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'reviews');
+        $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
         SmartCmsPanelManager::registerHook('navigation.resources', Resources::class);
         ProductResource::registerHook('sub_navigation', ProductSubNavigation::class);
         ProductResource::registerHook('pages', ProductPages::class);

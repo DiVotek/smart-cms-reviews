@@ -8,7 +8,7 @@ class ProfileNotifications
 {
     public function __invoke(array &$notifications, string $type)
     {
-        $notifications[] = Toggle::make('notifications.' . $type . '.new_review')
+        $notifications[] = Toggle::make('notifications.'.$type.'.new_review')
             ->label(__('reviews::trans.new_review'));
     }
 }
