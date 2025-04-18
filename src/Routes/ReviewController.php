@@ -4,9 +4,11 @@ namespace SmartCms\Reviews\Routes;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use SmartCms\Core\Services\AdminNotification;
 use SmartCms\Core\Services\ScmsResponse;
 use SmartCms\Core\Services\UserNotification;
 use SmartCms\Reviews\Models\ProductReview;
+use SmartCms\Reviews\Notifications\NewReviewNotification;
 
 class ReviewController
 {
@@ -21,7 +23,7 @@ class ReviewController
         if ($validator->fails()) {
             return new ScmsResponse(false, [], $validator->errors()->toArray());
         }
-        ProductReview::create([
+        $review = ProductReview::create([
             'product_id' => $request->product_id,
             'rating' => $request->rating,
             'status' => 0,
@@ -43,6 +45,7 @@ class ReviewController
                 ->success()
                 ->send();
         }
+        AdminNotification::make()->title(__('reviews::trans.new_review'))->sendToAll(new NewReviewNotification($review));
 
         return new ScmsResponse;
     }

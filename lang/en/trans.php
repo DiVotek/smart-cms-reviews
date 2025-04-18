@@ -8,4 +8,5 @@ return [
     'settings' => 'Settings',
     'nav' => 'Reviews',
     'nav_plural' => 'Reviews',
+    'new_review' => 'New Review',
 ];

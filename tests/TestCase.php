@@ -11,13 +11,23 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->loadMigrationsFrom(__DIR__.'/../vendor/smart-cms/store/database/migrations');
-        $this->loadMigrationsFrom(__DIR__.'/../vendor/smart-cms/core/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../vendor/smart-cms/store/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../vendor/smart-cms/core/database/new_migrations');
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'SmartCms\\Reviews\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            $classBaseName = class_basename($modelName);
+
+            if (class_exists($factory = 'SmartCms\\Reviews\\Database\\Factories\\' . $classBaseName . 'Factory')) {
+                return $factory;
+            }
+
+            if (class_exists($factory = 'SmartCms\\Store\\Database\\Factories\\' . $classBaseName . 'Factory')) {
+                return $factory;
+            }
+
+            return null;
+        });
     }
 
     protected function getPackageProviders($app)
@@ -36,11 +46,8 @@ class TestCase extends Orchestra
         $app->singleton('_settings', function () {
             return new \SmartCms\Core\Services\Singletone\Settings;
         });
-
-        /*
-         foreach (\Illuminate\Support\Facades\File::allFiles(__DIR__ . '/database/migrations') as $migration) {
-            (include $migration->getRealPath())->up();
-         }
-         */
+        $app->singleton('_lang', function () {
+            return new \SmartCms\Core\Services\Singletone\Languages;
+        });
     }
 }
