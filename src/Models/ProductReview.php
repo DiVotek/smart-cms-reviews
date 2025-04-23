@@ -26,6 +26,7 @@ class ProductReview extends BaseModel
 {
     use HasFactory;
     use HasStatus;
+
     protected $guarded = [];
 
     protected $casts = [
