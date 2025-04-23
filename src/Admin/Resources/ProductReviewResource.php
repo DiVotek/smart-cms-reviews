@@ -54,7 +54,7 @@ class ProductReviewResource extends Resource
     {
         return $form
             ->schema([
-                Schema::getName()->required(),
+                Schema::getName()->required()->disabled(),
                 Schema::getStatus(),
                 Schema::getSelect('rating', [
                     1 => 1,
@@ -62,10 +62,10 @@ class ProductReviewResource extends Resource
                     3 => 3,
                     4 => 4,
                     5 => 5,
-                ])->label(_columns('rating'))->required()->default(5),
-                ComponentsTextarea::make('comment')->label(_columns('comment'))->characterLimit(250),
+                ])->label(_columns('rating'))->required()->default(5)->disabled(),
+                ComponentsTextarea::make('comment')->label(_columns('comment'))->characterLimit(250)->disabled(),
                 ComponentsTextarea::make('admin_comment')->label(__('reviews::trans.admin_comment'))->characterLimit(250),
-                Schema::getImage(path: 'reviews', isMultiple: true),
+                // Schema::getImage(path: 'reviews', isMultiple: true),
             ])->columns(1);
     }
 
@@ -79,7 +79,6 @@ class ProductReviewResource extends Resource
                 TextColumn::make('name')->label(_columns('name')),
                 TextColumn::make('rating')->numeric()->label(_columns('rating')),
                 TextColumn::make('email')->label(_columns('email')),
-                TextColumn::make('comment')->label(_columns('comment')),
                 TableSchema::getUpdatedAt(),
             ])
             ->filters([

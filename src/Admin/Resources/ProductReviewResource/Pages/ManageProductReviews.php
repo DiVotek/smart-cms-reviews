@@ -19,7 +19,7 @@ class ManageProductReviews extends ManageRecords
     {
         $user_notification_fields = [];
         foreach (get_active_languages() as $lang) {
-            $user_notification_fields[] = Hidden::make('reviews.user_notification.'.$lang->slug);
+            $user_notification_fields[] = Hidden::make('reviews.user_notification.' . $lang->slug);
         }
 
         return [
@@ -28,9 +28,6 @@ class ManageProductReviews extends ManageRecords
             ActionsAction::make('settings')
                 ->settings()
                 ->form([
-                    Toggle::make('reviews.send_notification')
-                        ->label(__('reviews::trans.send_notification'))
-                        ->default(false),
                     ...$user_notification_fields,
                     TextInput::make('reviews.user_notification.default')
                         ->label(__('reviews::trans.user_notification'))
@@ -50,7 +47,7 @@ class ManageProductReviews extends ManageRecords
                                 $fields = [];
                                 $languages = get_active_languages();
                                 foreach ($languages as $language) {
-                                    $fields[] = TextInput::make($language->slug)->label(__('reviews::trans.user_notification').' ('.$language->name.')');
+                                    $fields[] = TextInput::make($language->slug)->label(__('reviews::trans.user_notification') . ' (' . $language->name . ')');
                                 }
 
                                 return $form->schema($fields);
@@ -60,21 +57,19 @@ class ManageProductReviews extends ManageRecords
                             })
                             ->action(function ($data, $set) {
                                 foreach ($data as $key => $value) {
-                                    $set('reviews.user_notification.'.$key, $value);
+                                    $set('reviews.user_notification.' . $key, $value);
                                 }
                             })),
                 ])
                 ->fillForm(function () {
                     return [
                         'reviews' => [
-                            'send_notification' => setting('reviews.send_notification'),
                             'user_notification' => setting('reviews.user_notification', []),
                         ],
                     ];
                 })
                 ->action(function (array $data) {
                     setting([
-                        'reviews.send_notification' => $data['reviews']['send_notification'],
                         'reviews.user_notification' => $data['reviews']['user_notification'] ?? [],
                     ]);
                 }),

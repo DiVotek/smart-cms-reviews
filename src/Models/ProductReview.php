@@ -26,16 +26,7 @@ class ProductReview extends BaseModel
 {
     use HasFactory;
     use HasStatus;
-
-    protected $fillable = [
-        'product_id',
-        'rating',
-        'name',
-        'email',
-        'comment',
-        'admin_comment',
-        'images',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'images' => 'array',

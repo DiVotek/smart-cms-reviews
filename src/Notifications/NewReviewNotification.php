@@ -40,7 +40,7 @@ class NewReviewNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $message = (new MailMessage)
-            ->line('🔔 New review for product '.$this->review->product->name.'!')
+            ->line('🔔 New review for product ' . $this->review->product->name . '!')
             ->line("Review: {$this->review->review}")
             ->line("Rating: {$this->review->rating}");
 
